@@ -23,18 +23,21 @@ Our player accepts the following parameter options:
 
 Examples:
 
-[soundcloud params="auto_play=true&show_comments=false"]http://soundcloud.com/forss/flickermood[/soundcloud]
+`[soundcloud params="auto_play=true&show_comments=false"]http://soundcloud.com/forss/flickermood[/soundcloud]`
 Embed a track player which starts playing automaticly and won't show any comments.
 
-[soundcloud params="color=33e040&theme_color=80e4a0"]http://soundcloud.com/forss/sets/live-4[/soundcloud]
+`[soundcloud params="color=33e040&theme_color=80e4a0"]http://soundcloud.com/forss/sets/live-4[/soundcloud]`
 Embeds a set player with a green theme.
 
-[soundcloud height="150" width="250"]http://soundcloud.com/groups/experimental[/soundcloud] 
+`[soundcloud height="150" width="250"]http://soundcloud.com/groups/experimental[/soundcloud]` 
 Embeds a group player with 150px height and 250px width. 
 
 == Installation ==
 
+
+
 == Frequently Asked Questions ==
+
 
 == Screenshots ==
 
