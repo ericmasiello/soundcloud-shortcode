@@ -11,7 +11,7 @@ The SoundCloud Shortcode plugin allows you to integrate a player widget from Sou
 == Description ==
 
 The SoundCloud Shortcode plugin allows you to easily integrate a player widget for a track, set or group from SoundCloud into your Wordpress Blog by using a Wordpress shortcode. 
-Use it like that in your blog post: `[soundcloud]http://soundcloud.com/LINK_TO_TRACK_SET_OR_GROUP[soundcloud]`
+Use it like that in your blog post: `[soundcloud]http://soundcloud.com/LINK_TO_TRACK_SET_OR_GROUP[/soundcloud]`
 It also supports these optional parameters: width, height and params.
 The "params" parameter will pass the given options on to the player widget.
 Our player accepts the following parameter options:
