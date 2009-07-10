@@ -1,5 +1,5 @@
 === SoundCloud Shortcode ===
-Contributors: jwagener
+Contributors: jowagener
 Donate link: http://soundcloud.com
 Tags: soundcloud, flash, player, shortcode,
 Requires at least: 2.5.0
