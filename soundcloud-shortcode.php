@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://www.soundcloud.com
 Description: SoundCloud Shortcode. Usage in your posts: [soundcloud]http://soundcloud.com/TRACK_PERMALINK[/soundcloud] . Works also with set or group instead of track. You can provide optional parameters height/width/params like that [soundcloud height="82" params="auto_play=true"]http....
-Version: 1.1.1
+Version: 1.1.3
 Author: Johannes Wagener <johannes@soundcloud.com>
 Author URI: http://johannes.wagener.cc
 */
@@ -34,28 +34,28 @@ function soundcloud_reverse_shortcode_preg_replace_callback($a){
 }
 
 function soundcloud_reverse_shortcode($content){
-  $pattern = '/<object.*width="([0-9]*\%?)".*height="([0-9]*\%?)".*src="http:\/\/.*soundcloud\.com\/player.swf\?(.*)".*<\/object>/U';
+  $pattern = '/<object.*width="([^"]+)".*height="([^"]+)".*src="http:\/\/.*soundcloud\.com\/player.swf\?(.*)".*<\/object>/U';
   return(preg_replace_callback($pattern, 'soundcloud_reverse_shortcode_preg_replace_callback', $content));
 }
-
 
 add_shortcode("soundcloud", "soundcloud_shortcode");
 function soundcloud_shortcode($atts,$url) {
   extract(shortcode_atts(array('params' => "", 'height' => "", 'width' => "100%"), $atts));
-  $splitted_url = split("/",$url);
-  $player_host = $splitted_url[2];
-  $media_type = $splitted_url[count($splitted_url) - 2];
+  $encoded_url = urlencode($url);
+  if($url = parse_url($url)){
+    $splitted_url = split("/",$url['path']);
+    $media_type = $splitted_url[count($splitted_url) - 2];
   
-  if($height == ""){
-    if($media_type == "groups" || $media_type == "sets"){
-      $height = "225";
-    }else{
-      $height = "81";
+    if($height == ""){
+      if($media_type == "groups" || $media_type == "sets"){
+        $height = "225";
+      }else{
+        $height = "81";
+      }
     }
-  }
-  $url = urlencode($url);
-  $player_params = "url=$url&g=1&$params";
+    $player_params = "url=$encoded_url&g=1&$params";
   
-  return "<object height=\"$height\" width=\"$width\"><param name=\"movie\" value=\"http://$player_host/player.swf?$player_params\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed allowscriptaccess=\"always\" height=\"$height\" src=\"http://$player_host/player.swf?$player_params\" type=\"application/x-shockwave-flash\" width=\"$width\"> </embed> </object>";
+    return "<object height=\"$height\" width=\"$width\"><param name=\"movie\" value=\"http://".$url['host']."/player.swf?$player_params\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed allowscriptaccess=\"always\" height=\"$height\" src=\"http://".$url['host']."/player.swf?$player_params\" type=\"application/x-shockwave-flash\" width=\"$width\"> </embed> </object>";
+  }
 }
 ?>
