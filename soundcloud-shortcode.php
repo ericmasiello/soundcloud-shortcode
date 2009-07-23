@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://www.soundcloud.com
 Description: SoundCloud Shortcode. Usage in your posts: [soundcloud]http://soundcloud.com/TRACK_PERMALINK[/soundcloud] . Works also with set or group instead of track. You can provide optional parameters height/width/params like that [soundcloud height="82" params="auto_play=true"]http....
-Version: 1.1.3
+Version: 1.1.4
 Author: Johannes Wagener <johannes@soundcloud.com>
 Author URI: http://johannes.wagener.cc
 */
