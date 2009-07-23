@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://www.soundcloud.com
 Description: SoundCloud Shortcode. Usage in your posts: [soundcloud]http://soundcloud.com/TRACK_PERMALINK[/soundcloud] . Works also with set or group instead of track. You can provide optional parameters height/width/params like that [soundcloud height="82" params="auto_play=true"]http....
-Version: 1.1
+Version: 1.1.1
 Author: Johannes Wagener <johannes@soundcloud.com>
 Author URI: http://johannes.wagener.cc
 */
@@ -34,7 +34,7 @@ function soundcloud_reverse_shortcode_preg_replace_callback($a){
 }
 
 function soundcloud_reverse_shortcode($content){
-  $pattern = '/<object.*width="([0-9]*\%?)".*height="([0-9]*\%?)".*src="http:\/\/player.soundcloud.com\/player.swf\?(.*)".*<\/object>/U';
+  $pattern = '/<object.*width="([0-9]*\%?)".*height="([0-9]*\%?)".*src="http:\/\/.*soundcloud\.com\/player.swf\?(.*)".*<\/object>/U';
   return(preg_replace_callback($pattern, 'soundcloud_reverse_shortcode_preg_replace_callback', $content));
 }
 
