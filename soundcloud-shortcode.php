@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://www.soundcloud.com
 Description: SoundCloud Shortcode. Usage in your posts: [soundcloud]http://soundcloud.com/TRACK_PERMALINK[/soundcloud] . Works also with set or group instead of track. You can provide optional parameters height/width/params like that [soundcloud height="82" params="auto_play=true"]http....
-Version: 1.0
+Version: 1.1
 Author: Johannes Wagener <johannes@soundcloud.com>
 Author URI: http://johannes.wagener.cc
 */
@@ -26,8 +26,20 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-add_shortcode("soundcloud", "soundcloud_shortcode");
+add_filter("pre_kses", "soundcloud_reverse_shortcode");
+function soundcloud_reverse_shortcode_preg_replace_callback($a){
+  preg_match('/(.*)&?url=([^&]+)&?(.*)/', str_replace("&amp;", "&", $a[3]), $params);
+  return('[soundcloud width="'. $a[1] .'" height="'. $a[2] .'" params="'. 
+         $params[1] . $params[3] .'"]' . urldecode($params[2]) . '[/soundcloud]' );
+}
 
+function soundcloud_reverse_shortcode($content){
+  $pattern = '/<object.*width="([0-9]*\%?)".*height="([0-9]*\%?)".*src="http:\/\/player.soundcloud.com\/player.swf\?(.*)".*<\/object>/U';
+  return(preg_replace_callback($pattern, 'soundcloud_reverse_shortcode_preg_replace_callback', $content));
+}
+
+
+add_shortcode("soundcloud", "soundcloud_shortcode");
 function soundcloud_shortcode($atts,$url) {
   extract(shortcode_atts(array('params' => "", 'height' => "", 'width' => "100%"), $atts));
   $splitted_url = split("/",$url);
