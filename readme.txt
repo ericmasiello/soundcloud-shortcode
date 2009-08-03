@@ -32,6 +32,8 @@ Embeds a set player with a green theme.
 `[soundcloud height="150" width="250"]http://soundcloud.com/groups/experimental[/soundcloud]` 
 Embeds a group player with 150px height and 250px width. 
 
+
+When posting the standard soundcloud embed code, the plugin tries to replace it with a shortcode.
 == Installation ==
 
 
