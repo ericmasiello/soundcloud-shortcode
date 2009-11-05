@@ -46,6 +46,8 @@ When posting the standard soundcloud embed code, the plugin tries to replace it 
 1. This is how the player looks like.
 
 == Changelog ==
+= 1.1.8 =
+Bugfix to use correct SoundCloud player host
 
 = 1.0 =
 * First version
