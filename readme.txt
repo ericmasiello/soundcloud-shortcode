@@ -46,6 +46,10 @@ When posting the standard soundcloud embed code, the plugin tries to replace it 
 1. This is how the player looks like.
 
 == Changelog ==
+= 1.1.9 = 
+* Fix to support resources from api.soundcloud.com
+* Security enhancement. Only support players from player.soundcloud.com, player.sandbox-soundcloud.com and player.staging-soundcloud.com
+
 = 1.1.8 =
 Bugfix to use correct SoundCloud player host
 

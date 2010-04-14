@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://www.soundcloud.com
 Description: SoundCloud Shortcode. Usage in your posts: [soundcloud]http://soundcloud.com/TRACK_PERMALINK[/soundcloud] . Works also with set or group instead of track. You can provide optional parameters height/width/params like that [soundcloud height="82" params="auto_play=true"]http....
-Version: 1.1.8
+Version: 1.1.9
 Author: Johannes Wagener <johannes@soundcloud.com>
 Author URI: http://johannes.wagener.cc
 */
@@ -67,14 +67,17 @@ function soundcloud_shortcode( $atts,$url='' ) {
                        }
                }
                $player_params = "url=$encoded_url&g=1&$params";
-
+               
+               preg_match('/(.+\.)?(((staging|sandbox)-)?soundcloud\.com)/', $url['host'], $matches);
+               $player_host = "player." . $matches[2];
+               
                return "<object height=\"" . esc_attr( $height ) . "\" width=\"" .
-esc_attr( $width ) . "\"><param name=\"movie\" value=\"http://player." .
-esc_attr( $url['host'] ) . "/player.swf?" . esc_attr( $player_params )
+esc_attr( $width ) . "\"><param name=\"movie\" value=\"http://" .
+esc_attr( $player_host ) . "/player.swf?" . esc_attr( $player_params )
 . "\"></param><param name=\"allowscriptaccess\"
 value=\"always\"></param><embed allowscriptaccess=\"always\"
-height=\"" . esc_attr( $height ) . "\" src=\"http://player." . esc_attr(
-$url['host'] ) . "/player.swf?" . esc_attr( $player_params ) . "\"
+height=\"" . esc_attr( $height ) . "\" src=\"http://" . esc_attr(
+$player_host ) . "/player.swf?" . esc_attr( $player_params ) . "\"
 type=\"application/x-shockwave-flash\" width=\"" . esc_attr( $width )
 . "\"> </embed> </object>";
        }
