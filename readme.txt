@@ -46,6 +46,9 @@ When posting the standard SoundCloud embed code, the plugin tries to replace it 
 1. This is how the player looks.
 
 == Changelog ==
+= 1.2.1 =
+* Removed flash fallback HTML
+
 = 1.2 = 
 * Added options page to allow blog-wide global default settings.
 
