@@ -43,6 +43,9 @@ When posting the standard SoundCloud embed code, the plugin tries to use the new
 2. This is how the default player looks, which uses HTML5.
 
 == Changelog ==
+= 2.2 =
+* Improved default options support
+
 = 2.1 =
 * Integrate oEmbed
 

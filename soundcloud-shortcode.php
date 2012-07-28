@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: https://github.com/soundcloud/wordpress-shortcode
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.1
+Version: 2.2
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
@@ -40,23 +40,38 @@ function soundcloud_shortcode($atts, $content = null) {
   // Custom shortcode options
   $shortcode_options = array_merge(array('url' => trim($content)), is_array($atts) ? $atts : array());
 
+  // Turn shortcode option "param" (param=value&param2=value) into array
+  $shortcode_params = array();
+  if (isset($shortcode_options['params'])) {
+    parse_str(html_entity_decode($shortcode_options['params']), $shortcode_params);
+  }
+  $shortcode_options['params'] = $shortcode_params;
+
   // User preference options
   $plugin_options = array_filter(array(
     'iframe' => soundcloud_get_option('player_iframe', true),
     'width'  => soundcloud_get_option('player_width'),
     'height' => soundcloud_get_option('player_height'),
-    'params' => http_build_query(array_filter(array(
+    'params' => array_filter(array(
       'auto_play'     => soundcloud_get_option('auto_play'),
       'show_comments' => soundcloud_get_option('show_comments'),
       'color'         => soundcloud_get_option('color'),
       'theme_color'   => soundcloud_get_option('theme_color'),
-    ))),
+    )),
   ));
+  // Needs to be an array
+  if (!isset($plugin_options['params'])) { $plugin_options['params'] = array(); }
 
   // plugin options < shortcode options
   $options = array_merge(
     $plugin_options,
     $shortcode_options
+  );
+
+  // plugin params < shortcode params
+  $options['params'] = array_merge(
+    $plugin_options['params'],
+    $shortcode_options['params']
   );
 
   // The "url" option is required
@@ -76,7 +91,7 @@ function soundcloud_shortcode($atts, $content = null) {
 
     // Unfortunately WordPress only passes on "width" and "height" options
     // so we have to add custom params ourselves.
-    if (isset($options['params'])) {
+    if (count($options['params'])) {
       $embed = soundcloud_oembed_params($embed, $options['params']);
     }
 
@@ -112,14 +127,14 @@ function soundcloud_booleanize($value) {
 
 /**
  * Add custom parameters to iframe embed code
- * @param  {string}  $embed  Embed code (html)
- * @param  {string}  $query  Parameters querystring
- * @return {string}          Embed code with added parameters
+ * @param  {string}  $embed   Embed code (html)
+ * @param  {array}  $params  Parameters array
+ * @return {string}           Embed code with added parameters
  */
-function soundcloud_oembed_params($embed, $query) {
+function soundcloud_oembed_params($embed, $params) {
   // Needs to be global because we can’t pass parameters to regex callback function < PHP 5.3
-  global $soundcloud_oembed_query;
-  $soundcloud_oembed_query = $query;
+  global $soundcloud_oembed_params;
+  $soundcloud_oembed_params = $params;
   return preg_replace_callback('/src="(https?:\/\/(?:w|wt)\.soundcloud\.(?:com|dev)\/[^"]*)/i', 'soundcloud_oembed_params_callback', $embed);
 }
 
@@ -129,16 +144,14 @@ function soundcloud_oembed_params($embed, $query) {
  * @return {string}          Parameterized url
  */
 function soundcloud_oembed_params_callback($match) {
-  global $soundcloud_oembed_query;
+  global $soundcloud_oembed_params;
 
-  // Convert oEmbed query to array
-  parse_str(html_entity_decode($soundcloud_oembed_query), $oembed_query_array);
   // Convert URL to array
   $url = parse_url(urldecode($match[1]));
   // Convert URL query to array
   parse_str($url['query'], $query_array);
   // Build new query string
-  $query = http_build_query(array_merge($query_array, $oembed_query_array));
+  $query = http_build_query(array_merge($query_array, $soundcloud_oembed_params));
 
   return 'src="' . $url['scheme'] . '://' . $url['host'] . $url['path'] . '?' . $query;
 }
@@ -150,18 +163,13 @@ function soundcloud_oembed_params_callback($match) {
  */
 function soundcloud_flash_widget($options) {
 
-  $params = array();
-  // Create an array of 'param=value&param2=value' string
-  if (isset($options['params'])) {
-    parse_str(html_entity_decode($options['params']), $params);
-  }
   // Merge in "url" value
-  $params = array_merge(array(
+  $options['params'] = array_merge(array(
     'url' => $options['url']
-  ), $params);
+  ), $options['params']);
 
   // Build URL
-  $url = 'http://player.soundcloud.com/player.swf?' . http_build_query($params);
+  $url = 'http://player.soundcloud.com/player.swf?' . http_build_query($options['params']);
   // Set default width if not defined
   $width = isset($options['width']) ? $options['width'] : '100%';
   // Set default height if not defined
@@ -313,18 +321,24 @@ function soundcloud_shortcode_options() {
       <tr valign="top">
         <th scope="row">Auto Play</th>
         <td>
-          <label for="auto_play_none"  style="margin-right: 1em;"><input type="radio" id="auto_play_none"  name="soundcloud_auto_play" value=""      <?php if (get_option('soundcloud_auto_play') == '')      echo 'checked'; ?> />Default</label>
-          <label for="auto_play_true"  style="margin-right: 1em;"><input type="radio" id="auto_play_true"  name="soundcloud_auto_play" value="true"  <?php if (get_option('soundcloud_auto_play') == 'true')  echo 'checked'; ?> />True</label>
-          <label for="auto_play_false" style="margin-right: 1em;"><input type="radio" id="auto_play_false" name="soundcloud_auto_play" value="false" <?php if (get_option('soundcloud_auto_play') == 'false') echo 'checked'; ?> />False</label>
+          <input type="radio" id="auto_play_none" name="soundcloud_auto_play" value=""<?php if (get_option('soundcloud_auto_play') == '') echo 'checked'; ?> />
+          <label for="auto_play_none"  style="margin-right: 1em;">Default</label>
+          <input type="radio" id="auto_play_true"  name="soundcloud_auto_play" value="true"<?php if (get_option('soundcloud_auto_play') == 'true') echo 'checked'; ?> />
+          <label for="auto_play_true"  style="margin-right: 1em;">True</label>
+          <input type="radio" id="auto_play_false" name="soundcloud_auto_play" value="false" <?php if (get_option('soundcloud_auto_play') == 'false') echo 'checked'; ?> />
+          <label for="auto_play_false" style="margin-right: 1em;">False</label>
         </td>
       </tr>
 
       <tr valign="top">
         <th scope="row">Show Comments</th>
         <td>
-          <label for="show_comments_none"  style="margin-right: 1em;"><input type="radio" id="show_comments_none"  name="soundcloud_show_comments" value=""      <?php if (get_option('soundcloud_show_comments') == '')      echo 'checked'; ?> />Default</label>
-          <label for="show_comments_true"  style="margin-right: 1em;"><input type="radio" id="show_comments_true"  name="soundcloud_show_comments" value="true"  <?php if (get_option('soundcloud_show_comments') == 'true')  echo 'checked'; ?> />True</label>
-          <label for="show_comments_false" style="margin-right: 1em;"><input type="radio" id="show_comments_false" name="soundcloud_show_comments" value="false" <?php if (get_option('soundcloud_show_comments') == 'false') echo 'checked'; ?> />False</label>
+          <input type="radio" id="show_comments_none"  name="soundcloud_show_comments" value=""<?php if (get_option('soundcloud_show_comments') == '') echo 'checked'; ?> />
+          <label for="show_comments_none" style="margin-right: 1em;">Default</label>
+          <input type="radio" id="show_comments_true"  name="soundcloud_show_comments" value="true"<?php if (get_option('soundcloud_show_comments') == 'true') echo 'checked'; ?> />
+          <label for="show_comments_true"  style="margin-right: 1em;">True</label>
+          <input type="radio" id="show_comments_false" name="soundcloud_show_comments" value="false" <?php if (get_option('soundcloud_show_comments') == 'false') echo 'checked'; ?> />
+          <label for="show_comments_false" style="margin-right: 1em;">False</label>
         </td>
       </tr>
 
