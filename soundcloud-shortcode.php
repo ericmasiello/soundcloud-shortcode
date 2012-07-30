@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/soundcloud-shortcode/
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.2.2
+Version: 2.2.3
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
@@ -78,7 +78,10 @@ function soundcloud_shortcode($atts, $content = null) {
   if (!isset($options['url'])) { return ''; }
 
   // Both "width" and "height" need to be integers
-  if (isset($options['width']) && !preg_match('/^\d+$/', $options['width'])) { unset($options['width']); }
+  if (isset($options['width']) && !preg_match('/^\d+$/', $options['width'])) {
+    // set to 0 so oEmbed will use the default 100% and WordPress themes will leave it alone
+    $options['width'] = 0;
+  }
   if (isset($options['height']) && !preg_match('/^\d+$/', $options['height'])) { unset($options['height']); }
 
   // The "iframe" option must be true to load widget via oEmbed
