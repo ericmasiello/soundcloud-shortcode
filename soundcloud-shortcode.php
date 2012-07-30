@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: SoundCloud Shortcode
-Plugin URI: https://github.com/soundcloud/wordpress-shortcode
+Plugin URI: http://wordpress.org/extend/plugins/soundcloud-shortcode/
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.2.1
+Version: 2.2.2
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
