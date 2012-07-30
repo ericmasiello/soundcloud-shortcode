@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: https://github.com/soundcloud/wordpress-shortcode
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.2
+Version: 2.2.1
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
@@ -51,7 +51,7 @@ function soundcloud_shortcode($atts, $content = null) {
   $plugin_options = array_filter(array(
     'iframe' => soundcloud_get_option('player_iframe', true),
     'width'  => soundcloud_get_option('player_width'),
-    'height' => soundcloud_get_option('player_height'),
+    'height' =>  soundcloud_url_has_tracklist($shortcode_options['url']) ? soundcloud_get_option('player_height_multi') : soundcloud_get_option('player_height'),
     'params' => array_filter(array(
       'auto_play'     => soundcloud_get_option('auto_play'),
       'show_comments' => soundcloud_get_option('show_comments'),
@@ -79,7 +79,7 @@ function soundcloud_shortcode($atts, $content = null) {
 
   // Both "width" and "height" need to be integers
   if (isset($options['width']) && !preg_match('/^\d+$/', $options['width'])) { unset($options['width']); }
-  if (isset($options['height']) && !preg_match('/^\d+$/', $options['width'])) { unset($options['height']); }
+  if (isset($options['height']) && !preg_match('/^\d+$/', $options['height'])) { unset($options['height']); }
 
   // The "iframe" option must be true to load widget via oEmbed
   $oEmbed = soundcloud_booleanize($options['iframe']);
@@ -123,6 +123,15 @@ function soundcloud_get_option($option, $default = false) {
  */
 function soundcloud_booleanize($value) {
   return is_bool($value) ? $value : $value === 'true' ? true : false;
+}
+
+/**
+ * Decide if a url has a tracklist
+ * @param  {string}   $url
+ * @return {boolean}
+ */
+function soundcloud_url_has_tracklist($url) {
+  return preg_match('/^(.+?)\/(sets|groups|playlists)\/(.+?)$/', $url);
 }
 
 /**
@@ -173,7 +182,7 @@ function soundcloud_flash_widget($options) {
   // Set default width if not defined
   $width = isset($options['width']) ? $options['width'] : '100%';
   // Set default height if not defined
-  $height = isset($options['height']) ? $options['height'] : preg_match('/^(.+?)\/(sets|groups|playlists)\/(.+?)$/', $options['url']) ? '255' : '81';
+  $height = isset($options['height']) ? $options['height'] : (soundcloud_url_has_tracklist($options['url']) ? '255' : '81');
 
   return preg_replace('/\s\s+/', "", sprintf('<object width="%s" height="%s">
                                 <param name="movie" value="%s"></param>
@@ -266,7 +275,7 @@ function soundcloud_shortcode_options() {
 <div class="wrap">
   <h2>SoundCloud Shortcode Default Settings</h2>
   <p>These settings will become the new defaults used by the SoundCloud Shortcode throughout your blog.</p>
-  <p>You can always override these settings on a per-shortcode basis. Setting the 'params' attribute in a shortcode overrides all these defaults combined.</p>
+  <p>You can always override these settings on a per-shortcode basis. Setting the 'params' attribute in a shortcode overrides these defaults individually.</p>
 
   <form method="post" action="options.php">
     <?php settings_fields( 'soundcloud-settings' ); ?>
