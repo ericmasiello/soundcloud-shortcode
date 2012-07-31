@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/soundcloud-shortcode/
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.2.3
+Version: 2.2.4
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
@@ -183,9 +183,9 @@ function soundcloud_flash_widget($options) {
   // Build URL
   $url = 'http://player.soundcloud.com/player.swf?' . http_build_query($options['params']);
   // Set default width if not defined
-  $width = isset($options['width']) ? $options['width'] : '100%';
+  $width = isset($options['width']) && $options['width'] !== 0 ? $options['width'] : '100%';
   // Set default height if not defined
-  $height = isset($options['height']) ? $options['height'] : (soundcloud_url_has_tracklist($options['url']) ? '255' : '81');
+  $height = isset($options['height']) && $options['height'] !== 0 ? $options['height'] : (soundcloud_url_has_tracklist($options['url']) ? '255' : '81');
 
   return preg_replace('/\s\s+/', "", sprintf('<object width="%s" height="%s">
                                 <param name="movie" value="%s"></param>
