@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/soundcloud-shortcode/
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.2.4
+Version: 2.2.5
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
@@ -198,7 +198,10 @@ function soundcloud_flash_widget($options) {
 /* Register reverse shortcode filter
    ========================================================================== */
 
-add_filter("content_save_pre", "soundcloud_reverse_shortcode");
+// Disabling this for now because it seems to mess up content it shouldn’t
+// http://wordpress.org/support/topic/plugin-soundcloud-shortcode-disastrous-update-223-breaks-encoding-of-existing-and-new-posts-when-saving
+// http://wordpress.org/support/topic/plugin-soundcloud-shortcode-postpage-content-not-saved-beyond-nbsp-etc-when-plugin-is-activated
+// add_filter("content_save_pre", "soundcloud_reverse_shortcode");
 
 /**
  * Replace SoundCloud <iframe> widgets with [soundcloud] shortcodes
