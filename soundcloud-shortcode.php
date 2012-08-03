@@ -45,8 +45,6 @@ class SoundcloudShortcode {
 
   // set to true when we deprecate the flash player
   const DEFAULT_TO_IFRAME       = false;
-  // Needs to be an array
-  if (!isset($plugin_options['params'])) { $plugin_options['params'] = array(); }
 
   public function parse($attributes, $content=null) {
 
