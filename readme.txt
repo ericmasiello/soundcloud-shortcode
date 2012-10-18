@@ -43,6 +43,10 @@ When posting the standard SoundCloud embed code, the plugin tries to use the new
 2. This is how the default player looks, which uses HTML5.
 
 == Changelog ==
+= 2.3 =
+* Don’t use oEmbed anymore because of various bugs.
+* Standard http://soundcloud.com/<user> permalinks will always return the flash widget. Use the widget generator on the website to get an API url.
+
 = 2.2 =
 * Improved default options support
 

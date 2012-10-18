@@ -3,7 +3,7 @@
 Plugin Name: SoundCloud Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/soundcloud-shortcode/
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 2.2.5
+Version: 2.3
 Author: SoundCloud Inc.
 Author URI: http://soundcloud.com
 License: GPLv2
@@ -15,15 +15,16 @@ HTML5 & oEmbed support: Tim Bormans <tim@soundcloud.com>
 
 
 /* Register oEmbed provider
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
 
 wp_oembed_add_provider('#https?://(?:api\.)?soundcloud\.com/.*#i', 'http://soundcloud.com/oembed', true);
 
 
 /* Register SoundCloud shortcode
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
 
 add_shortcode("soundcloud", "soundcloud_shortcode");
+
 
 /**
  * SoundCloud shortcode handler
@@ -33,9 +34,6 @@ add_shortcode("soundcloud", "soundcloud_shortcode");
  * @return {string}                  Widget embed code HTML
  */
 function soundcloud_shortcode($atts, $content = null) {
-
-  // We need to use the WP_Embed class instance
-  global $wp_embed;
 
   // Custom shortcode options
   $shortcode_options = array_merge(array('url' => trim($content)), is_array($atts) ? $atts : array());
@@ -75,7 +73,11 @@ function soundcloud_shortcode($atts, $content = null) {
   );
 
   // The "url" option is required
-  if (!isset($options['url'])) { return ''; }
+  if (!isset($options['url'])) {
+    return '';
+  } else {
+    $options['url'] = trim($options['url']);
+  }
 
   // Both "width" and "height" need to be integers
   if (isset($options['width']) && !preg_match('/^\d+$/', $options['width'])) {
@@ -84,25 +86,17 @@ function soundcloud_shortcode($atts, $content = null) {
   }
   if (isset($options['height']) && !preg_match('/^\d+$/', $options['height'])) { unset($options['height']); }
 
-  // The "iframe" option must be true to load widget via oEmbed
-  $oEmbed = soundcloud_booleanize($options['iframe']);
+  // The "iframe" option must be true to load the iframe widget
+  $iframe = soundcloud_booleanize($options['iframe'])
+    // Default to flash widget for permalink urls (e.g. http://soundcloud.com/{username})
+    // because HTML5 widget doesn’t support those yet
+    ? preg_match('/api.soundcloud.com/i', $options['url'])
+    : false;
 
-  if ($oEmbed) {
-    // This handler handles calling the oEmbed class
-    // and more importantly will also do the caching!
-    $embed = $wp_embed->shortcode($options, $options['url']);
-
-    // Unfortunately WordPress only passes on "width" and "height" options
-    // so we have to add custom params ourselves.
-    if (count($options['params'])) {
-      $embed = soundcloud_oembed_params($embed, $options['params']);
-    }
-
-    return $embed;
-
+  // Return html embed code
+  if ($iframe) {
+    return soundcloud_iframe_widget($options);
   } else {
-    // We can’t use default WordPress oEmbed implementation since
-    // it doesn’t support sending the iframe=false parameter.
     return soundcloud_flash_widget($options);
   }
 
@@ -138,19 +132,6 @@ function soundcloud_url_has_tracklist($url) {
 }
 
 /**
- * Add custom parameters to iframe embed code
- * @param  {string}  $embed   Embed code (html)
- * @param  {array}  $params  Parameters array
- * @return {string}           Embed code with added parameters
- */
-function soundcloud_oembed_params($embed, $params) {
-  // Needs to be global because we can’t pass parameters to regex callback function < PHP 5.3
-  global $soundcloud_oembed_params;
-  $soundcloud_oembed_params = $params;
-  return preg_replace_callback('/src="(https?:\/\/(?:w|wt)\.soundcloud\.(?:com|dev)\/[^"]*)/i', 'soundcloud_oembed_params_callback', $embed);
-}
-
-/**
  * Parameterize url
  * @param  {array}  $match  Matched regex
  * @return {string}          Parameterized url
@@ -169,9 +150,31 @@ function soundcloud_oembed_params_callback($match) {
 }
 
 /**
+ * Iframe widget embed code
+ * @param  {array}   $options  Parameters
+ * @return {string}            Iframe embed code
+ */
+function soundcloud_iframe_widget($options) {
+
+  // Merge in "url" value
+  $options['params'] = array_merge(array(
+    'url' => $options['url']
+  ), $options['params']);
+
+  // Build URL
+  $url = 'http://w.soundcloud.com/player?' . http_build_query($options['params']);
+  // Set default width if not defined
+  $width = isset($options['width']) && $options['width'] !== 0 ? $options['width'] : '100%';
+  // Set default height if not defined
+  $height = isset($options['height']) && $options['height'] !== 0 ? $options['height'] : (soundcloud_url_has_tracklist($options['url']) ? '450' : '166');
+
+  return sprintf('<iframe width="%s" height="%s" scrolling="no" frameborder="no" src="%s"></iframe>', $width, $height, $url);
+}
+
+/**
  * Legacy Flash widget embed code
- * @param  {options}  $options  Querystring
- * @return {string}             Flash embed code
+ * @param  {array}   $options  Parameters
+ * @return {string}            Flash embed code
  */
 function soundcloud_flash_widget($options) {
 
@@ -195,56 +198,9 @@ function soundcloud_flash_widget($options) {
 }
 
 
-/* Register reverse shortcode filter
-   ========================================================================== */
-
-// Disabling this for now because it seems to mess up content it shouldn’t
-// http://wordpress.org/support/topic/plugin-soundcloud-shortcode-disastrous-update-223-breaks-encoding-of-existing-and-new-posts-when-saving
-// http://wordpress.org/support/topic/plugin-soundcloud-shortcode-postpage-content-not-saved-beyond-nbsp-etc-when-plugin-is-activated
-// add_filter("content_save_pre", "soundcloud_reverse_shortcode");
-
-/**
- * Replace SoundCloud <iframe> widgets with [soundcloud] shortcodes
- * @param  {string} $content
- * @return {string}
- */
-function soundcloud_reverse_shortcode($content) {
-  return preg_replace_callback('/<iframe(?:(?!>).)*>.*?<\/iframe>/i', 'soundcloud_reverse_shortcode_callback', stripslashes(html_entity_decode($content)));
-}
-/**
- * Matched iframe regex result to shortcode
- * @param  {array}   $match  Matches
- * @return {string}          Shortcode
- */
-function soundcloud_reverse_shortcode_callback($match) {
-
-  $tag = $match[0];
-  $dom = new DOMDocument();
-  @$dom->loadHTML($tag);
-
-  $iframeElement = $dom->getElementsByTagName('iframe')->item(0);
-
-  $src = $iframeElement->getAttribute('src');
-  if (!preg_match('/w.soundcloud.com/i', $src)) { return $tag; }
-
-  $srcObj   = parse_url($src);
-  $srcQuery = isset($srcObj['query']) ? $srcObj['query'] : '';
-
-  // Create an array of querystring
-  parse_str(html_entity_decode($srcQuery), $params);
-
-  $url    = isset($params['url']) ? $params['url'] : '';
-  unset($params['url']);
-  $params = http_build_query($params);
-  $width  = $iframeElement->getAttribute('width');
-  $height = $iframeElement->getAttribute('height');
-
-  return sprintf('[soundcloud url="%s" width="%s" height="%s" params="%s" iframe="true" /]', $url, $width, $height, $params);
-}
-
 
 /* Settings
-   ========================================================================== */
+   -------------------------------------------------------------------------- */
 
 /* Add settings link on plugin page */
 add_filter("plugin_action_links_" . plugin_basename(__FILE__), 'soundcloud_settings_link');
