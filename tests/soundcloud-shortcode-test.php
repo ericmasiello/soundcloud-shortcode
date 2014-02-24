@@ -64,6 +64,16 @@ class SC_Widget_Test extends PHPUnit_Framework_TestCase {
     );
     $this->assertEquals($expected, soundcloud_shortcode($params), 'HTML5 Widget with extra parameters');
 
+    $expected = '<iframe width="500" height="450" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F38987054&visual=true"></iframe>';
+    $params = array(
+      'url'    => 'http://api.soundcloud.com/tracks/38987054',
+      'iframe' => true,
+      'width'  => 500,
+      'height' => 450,
+      'params' => 'visual=true'
+    );
+    $this->assertEquals($expected, soundcloud_shortcode($params), 'Simple Visual Widget');
+
     $expected = '<object width="300" height="300"><param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F45036121&auto_play=false&player_type=artwork&color=00ff3b"></param><param name="allowscriptaccess" value="always"></param><embed width="300" height="300" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F45036121&auto_play=false&player_type=artwork&color=00ff3b" allowscriptaccess="always" type="application/x-shockwave-flash"></embed></object>';
     $params = array(
       'url'    => 'http://api.soundcloud.com/tracks/45036121',
