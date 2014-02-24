@@ -87,7 +87,7 @@ class SC_Widget_Test extends PHPUnit_Framework_TestCase {
     $expected = '<object width="300" height="300"><param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F41770793&auto_play=false&player_type=artwork&color=ff7700"></param><param name="allowscriptaccess" value="always"></param><embed width="300" height="300" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F41770793&auto_play=false&player_type=artwork&color=ff7700" allowscriptaccess="always" type="application/x-shockwave-flash"></embed></object>';
     $params = array(
       'url'     => 'http://api.soundcloud.com/tracks/41770793',
-      'iframe'  => 'false',
+      'iframe'  => false,
       'params'  => 'auto_play=false&player_type=artwork&color=ff7700',
       'width'   => '300',
       'height'  => '300',

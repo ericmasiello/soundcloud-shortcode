@@ -37,7 +37,6 @@ function soundcloud_shortcode($atts, $content = null) {
 
   // Custom shortcode options
   $shortcode_options = array_merge(array('url' => trim($content)), is_array($atts) ? $atts : array());
-
   // Turn shortcode option "param" (param=value&param2=value) into array
   $shortcode_params = array();
   if (isset($shortcode_options['params'])) {
@@ -54,7 +53,7 @@ function soundcloud_shortcode($atts, $content = null) {
       'auto_play'     => soundcloud_get_option('auto_play'),
       'show_comments' => soundcloud_get_option('show_comments'),
       'color'         => soundcloud_get_option('color'),
-      'theme_color'   => soundcloud_get_option('theme_color'),
+      'theme_color'   => soundcloud_get_option('theme_color')
     )),
   ));
   // Needs to be an array
