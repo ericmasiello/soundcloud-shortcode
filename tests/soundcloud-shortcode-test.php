@@ -134,7 +134,7 @@ class SC_Widget_Test extends PHPUnit_Framework_TestCase {
     );
     $this->assertEquals($expected, soundcloud_shortcode($params), 'Default height and width for Flash playlist widget');
 
-    $expected = '<object width="100%" height="81"><param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fsoundcloud.com%2Fforss%2Fflickermood"></param><param name="allowscriptaccess" value="always"></param><embed width="100%" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fsoundcloud.com%2Fforss%2Fflickermood" allowscriptaccess="always" type="application/x-shockwave-flash"></embed></object>';
+    $expected = '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player?url=http%3A%2F%2Fsoundcloud.com%2Fforss%2Fflickermood"></iframe>';
     $params = array(
       'url'    => 'http://soundcloud.com/forss/flickermood',
       'iframe' => true
@@ -161,7 +161,7 @@ class SC_Widget_Test extends PHPUnit_Framework_TestCase {
     );
     $this->assertEquals($expected, soundcloud_shortcode($params), 'Trim whitespace');
 
-    $expected = '<object width="100%" height="81"><param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fsoundcloud.com%2Fvincewatson%2Fvince-watson-live-subclub"></param><param name="allowscriptaccess" value="always"></param><embed width="100%" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fsoundcloud.com%2Fvincewatson%2Fvince-watson-live-subclub" allowscriptaccess="always" type="application/x-shockwave-flash"></embed></object>';
+    $expected = '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="http://w.soundcloud.com/player?url=http%3A%2F%2Fsoundcloud.com%2Fvincewatson%2Fvince-watson-live-subclub"></iframe>';
     $params = array(
       'url'     => 'http://soundcloud.com/vincewatson/vince-watson-live-subclub',
       'iframe'  => 'true'
