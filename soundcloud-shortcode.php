@@ -287,9 +287,9 @@ function soundcloud_shortcode_options() {
           <input type="radio" id="auto_play_none" name="soundcloud_auto_play" value=""<?php if (get_option('soundcloud_auto_play') == '') echo 'checked'; ?> />
           <label for="auto_play_none"  style="margin-right: 1em;">Default</label>
           <input type="radio" id="auto_play_true"  name="soundcloud_auto_play" value="true"<?php if (get_option('soundcloud_auto_play') == 'true') echo 'checked'; ?> />
-          <label for="auto_play_true"  style="margin-right: 1em;">True</label>
+          <label for="auto_play_true"  style="margin-right: 1em;">Yes</label>
           <input type="radio" id="auto_play_false" name="soundcloud_auto_play" value="false" <?php if (get_option('soundcloud_auto_play') == 'false') echo 'checked'; ?> />
-          <label for="auto_play_false" style="margin-right: 1em;">False</label>
+          <label for="auto_play_false" style="margin-right: 1em;">No</label>
         </td>
       </tr>
 
@@ -299,9 +299,9 @@ function soundcloud_shortcode_options() {
           <input type="radio" id="show_comments_none"  name="soundcloud_show_comments" value=""<?php if (get_option('soundcloud_show_comments') == '') echo 'checked'; ?> />
           <label for="show_comments_none" style="margin-right: 1em;">Default</label>
           <input type="radio" id="show_comments_true"  name="soundcloud_show_comments" value="true"<?php if (get_option('soundcloud_show_comments') == 'true') echo 'checked'; ?> />
-          <label for="show_comments_true"  style="margin-right: 1em;">True</label>
+          <label for="show_comments_true"  style="margin-right: 1em;">Yes</label>
           <input type="radio" id="show_comments_false" name="soundcloud_show_comments" value="false" <?php if (get_option('soundcloud_show_comments') == 'false') echo 'checked'; ?> />
-          <label for="show_comments_false" style="margin-right: 1em;">False</label>
+          <label for="show_comments_false" style="margin-right: 1em;">No</label>
         </td>
       </tr>
 
