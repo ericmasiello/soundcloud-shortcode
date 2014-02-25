@@ -35,6 +35,9 @@ An example of a track that starts playing automatically and won’t show any com
 
 == Changelog ==
 
+= 3.0.0 =
+* Make visual player the default player (option to disable in settings)
+
 = 2.3.2 =
 * Add developer documentation
 * Update README
