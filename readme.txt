@@ -36,6 +36,9 @@ An example of a track that starts playing automatically and won’t show any com
 
 == Changelog ==
 
+= 3.0.1 =
+* Minor copy updates in readme.txt
+
 = 3.0.0 =
 * Make visual player the default player (option to disable in settings)
 
