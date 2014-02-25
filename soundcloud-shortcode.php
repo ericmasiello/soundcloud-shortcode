@@ -52,8 +52,7 @@ function soundcloud_shortcode($atts, $content = null) {
     'params' => array_filter(array(
       'auto_play'     => soundcloud_get_option('auto_play'),
       'show_comments' => soundcloud_get_option('show_comments'),
-      'color'         => soundcloud_get_option('color'),
-      'theme_color'   => soundcloud_get_option('theme_color')
+      'color'         => soundcloud_get_option('color')
     )),
   ));
   // Needs to be an array
@@ -221,7 +220,6 @@ function register_soundcloud_settings() {
   register_setting('soundcloud-settings', 'soundcloud_auto_play');
   register_setting('soundcloud-settings', 'soundcloud_show_comments');
   register_setting('soundcloud-settings', 'soundcloud_color');
-  register_setting('soundcloud-settings', 'soundcloud_theme_color');
 }
 
 function soundcloud_shortcode_options() {
@@ -278,8 +276,7 @@ function soundcloud_shortcode_options() {
           <?php echo http_build_query(array_filter(array(
             'auto_play'     => get_option('soundcloud_auto_play'),
             'show_comments' => get_option('soundcloud_show_comments'),
-            'color'         => get_option('soundcloud_color'),
-            'theme_color'   => get_option('soundcloud_theme_color'),
+            'color'         => get_option('soundcloud_color')
           ))) ?>
         </td>
       </tr>
@@ -313,14 +310,6 @@ function soundcloud_shortcode_options() {
         <td>
           <input type="text" name="soundcloud_color" value="<?php echo get_option('soundcloud_color'); ?>" /> (color hex code e.g. ff6699)<br />
           Defines the color to paint the play button, waveform and selections.
-        </td>
-      </tr>
-
-      <tr valign="top">
-        <th scope="row">Theme Color</th>
-        <td>
-          <input type="text" name="soundcloud_theme_color" value="<?php echo get_option('soundcloud_theme_color'); ?>" /> (color hex code e.g. ff6699)<br />
-          Defines the background color of the player.
         </td>
       </tr>
 
