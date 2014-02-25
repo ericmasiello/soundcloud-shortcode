@@ -35,8 +35,11 @@ An example of a track that starts playing automatically and won’t show any com
 
 == Changelog ==
 
+= 2.3.2 =
+* Add developer documentation
+* Update README
+
 = 2.3.1 =
-* Add documentation
 * Add support for permalinks in HTML5 shortcode
 
 = 2.3.0 =
