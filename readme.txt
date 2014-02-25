@@ -15,12 +15,13 @@ A simple example:
 
 `[soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]`
 
-== Options ==
+**More Options**
 
 SoundCloud Shortcodes support these optional parameters:
-  - `width`
-  - `height`
-  - `params`
+
+* `width`
+* `height`
+* `params`
 
 The `params` parameter passes additional options to the SoundCloud embeddable player. You can find a full list on the SoundCloud Developers pages: http://developers.soundcloud.com/docs/widget
 
@@ -30,7 +31,7 @@ An example of a track that starts playing automatically and won’t show any com
 
 == Installation ==
 
-1. Upload `plugin_name` to your plug-in directory or install it from the Wordpress Plug-in Repository
+1. Upload `soundcloud-shortcode` to your plug-in directory or install it from the Wordpress Plug-in Repository
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
