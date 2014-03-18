@@ -167,7 +167,7 @@ function soundcloud_oembed_params_callback($match) {
 function soundcloud_iframe_widget($options) {
 
   // Build URL
-  $url = 'http://w.soundcloud.com/player?' . http_build_query($options['params']);
+  $url = 'https://w.soundcloud.com/player?' . http_build_query($options['params']);
   // Set default width if not defined
   $width = isset($options['width']) && $options['width'] !== 0 ? $options['width'] : '100%';
   // Set default height if not defined
@@ -187,7 +187,7 @@ function soundcloud_iframe_widget($options) {
 function soundcloud_flash_widget($options) {
 
   // Build URL
-  $url = 'http://player.soundcloud.com/player.swf?' . http_build_query($options['params']);
+  $url = 'https://player.soundcloud.com/player.swf?' . http_build_query($options['params']);
   // Set default width if not defined
   $width = isset($options['width']) && $options['width'] !== 0 ? $options['width'] : '100%';
   // Set default height if not defined
