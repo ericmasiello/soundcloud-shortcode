@@ -36,6 +36,9 @@ An example of a track that starts playing automatically and won’t show any com
 
 == Changelog ==
 
+= 3.0.2 =
+* Always load embeds over https
+
 = 3.0.1 =
 * Minor copy updates in readme.txt
 
