@@ -38,4 +38,4 @@ WordPress plugin for converting SoundCloud shortcodes into Embedded Players.
 
 5. Tag your release in Git and push latest changes:
 
-        $ git tag 1.0.2 && git push origin --tags
+        $ git tag 1.0.2 && git push origin master --tags
