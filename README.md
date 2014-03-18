@@ -9,7 +9,7 @@ WordPress plugin for converting SoundCloud shortcodes into Embedded Players.
 
     - OS X:
 
-          $ brew install phpunit
+            $ brew install phpunit
 
 2. Run tests
 
