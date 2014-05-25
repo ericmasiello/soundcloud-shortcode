@@ -17,8 +17,7 @@ Options support: Eric Masiello
 
 wp_oembed_add_provider('#https?://(?:api\.)?soundcloud\.com/.*#i', 'http://soundcloud.com/oembed', true);
 wp_enqueue_script('jquery');
-wp_enqueue_script('soundcloud-api', plugin_dir_url( __FILE__ ) .'/scripts/soundcloud.player.api.js', '', '', true);
-wp_enqueue_script('soundcloud-custom-player', plugin_dir_url( __FILE__ ) .'/scripts/sc-player.js', array('soundcloud-api'), '1.1', true);
+wp_enqueue_script('soundcloud-api', plugin_dir_url( __FILE__ ) .'/scripts/sc-built.min.js', '', '1.0', true);
 
 
 /* Register SoundCloud shortcode
