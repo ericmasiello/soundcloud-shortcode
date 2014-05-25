@@ -1,16 +1,14 @@
 <?php
 /*
-Plugin Name: SoundCloud Shortcode
-Plugin URI: http://wordpress.org/extend/plugins/soundcloud-shortcode/
+Plugin Name: SoundCloud Shortcode with Custom Player
+Plugin URI: http://www.synbydesign.com
 Description: Converts SoundCloud WordPress shortcodes to a SoundCloud widget. Example: [soundcloud]http://soundcloud.com/forss/flickermood[/soundcloud]
-Version: 3.0.2
-Author: SoundCloud Inc.
-Author URI: http://soundcloud.com
+Version: 100.0
+Author: Eric Masiello
 License: GPLv2
 
 Original version: Johannes Wagener <johannes@soundcloud.com>
-Options support: Tiffany Conroy <tiffany@soundcloud.com>
-HTML5 & oEmbed support: Tim Bormans <tim@soundcloud.com>
+Options support: Eric Masiello
 */
 
 
@@ -18,6 +16,9 @@ HTML5 & oEmbed support: Tim Bormans <tim@soundcloud.com>
    -------------------------------------------------------------------------- */
 
 wp_oembed_add_provider('#https?://(?:api\.)?soundcloud\.com/.*#i', 'http://soundcloud.com/oembed', true);
+wp_enqueue_script('jquery');
+wp_enqueue_script('soundcloud-api', plugin_dir_url( __FILE__ ) .'/scripts/soundcloud.player.api.js', '', '', true);
+wp_enqueue_script('soundcloud-custom-player', plugin_dir_url( __FILE__ ) .'/scripts/sc-player.js', array('soundcloud-api'), '1.1', true);
 
 
 /* Register SoundCloud shortcode
