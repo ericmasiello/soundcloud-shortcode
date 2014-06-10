@@ -501,7 +501,9 @@
         // adding controls to the player
         $player
           .find('.sc-controls')
-            .append('<a href="#play" class="sc-play"><svg viewBox="0 0 50 50" style="background-color:#ffffff00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" width="50px" height="50px"><g><path d="M 25 0 C 11.1924 0 0 11.1924 0 25 C 0 38.8076 11.1924 50 25 50 C 38.8076 50 50 38.8076 50 25 C 50 11.1924 38.8076 0 25 0 ZM 25 45.3125 C 13.7809 45.3125 4.6875 36.2188 4.6875 25 C 4.6875 13.7808 13.7809 4.6875 25 4.6875 C 36.2183 4.6875 45.3125 13.7808 45.3125 25 C 45.3125 36.2188 36.2183 45.3125 25 45.3125 ZM 18.75 14.0625 L 37.5 25 L 18.75 35.9375 L 18.75 14.0625 Z" fill="#ffffff"/></g></svg></a> <a href="#pause" class="sc-pause hidden"><svg viewBox="0 0 50 50" style="background-color:#ffffff00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" width="50px" height="50px"><g id="Layer%201"><g><path d="M 25 0 C 11.1924 0 0 11.1924 0 25 C 0 38.8076 11.1924 50 25 50 C 38.8076 50 50 38.8076 50 25 C 50 11.1924 38.8076 0 25 0 ZM 25 45.3125 C 13.7809 45.3125 4.6875 36.2188 4.6875 25 C 4.6875 13.7808 13.7809 4.6875 25 4.6875 C 36.2183 4.6875 45.3125 13.7808 45.3125 25 C 45.3125 36.2188 36.2183 45.3125 25 45.3125 ZM 18.75 35.9375 L 18.75 35.9375 Z" fill="#ffffff"/></g><path d="M 25 48 C 38.2556 48 11.7444 48 25 48 ZM 25 43.7727 C 14.2294 43.7727 35.7695 43.7727 25 43.7727 ZM 16 17 L 22 17 L 22 33.9091 L 16 33.9091 L 16 17 ZM 28 17 L 34 17 L 34 33.9091 L 28 33.9091 L 28 17 Z" fill="#ffffff"/></g></svg></a>')
+          .append('<a href="#previous" class="sc-previous"><svg id="" viewBox="0 0 19 18" style="background-color:#ffffff00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" width="19px" height="18px"><path d="M 5.5936 9.0005 C 5.5936 9.4038 6.0137 9.6908 6.0137 9.6908 L 17.69 16.829 C 18.554 17.3801 19.2593 16.9739 19.2593 15.9308 L 19.2593 2.0698 C 19.2593 1.0251 18.556 0.6188 17.69 1.1697 L 6.0137 8.3092 C 6.0137 8.311 5.5936 8.5962 5.5936 8.9994 L 5.5936 9.0005 ZM 0 1.7463 L 0 16.2549 C 0 17.6414 0.9821 18.0667 2.4074 18.0667 C 3.8331 18.0667 4.8151 17.6414 4.8151 16.257 L 4.8151 1.7478 C 4.8151 0.3591 3.8331 -0.0667 2.4074 -0.0667 C 0.9821 -0.0667 0 0.36 0 1.7478 L 0 1.7463 Z" fill="#ffffff"/></svg></a>')
+          .append('<a href="#play" class="sc-play"><svg viewBox="0 0 50 50" style="background-color:#ffffff00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" width="50px" height="50px"><g><path d="M 25 0 C 11.1924 0 0 11.1924 0 25 C 0 38.8076 11.1924 50 25 50 C 38.8076 50 50 38.8076 50 25 C 50 11.1924 38.8076 0 25 0 ZM 25 45.3125 C 13.7809 45.3125 4.6875 36.2188 4.6875 25 C 4.6875 13.7808 13.7809 4.6875 25 4.6875 C 36.2183 4.6875 45.3125 13.7808 45.3125 25 C 45.3125 36.2188 36.2183 45.3125 25 45.3125 ZM 18.75 14.0625 L 37.5 25 L 18.75 35.9375 L 18.75 14.0625 Z" fill="#ffffff"/></g></svg></a> <a href="#pause" class="sc-pause hidden"><svg viewBox="0 0 50 50" style="background-color:#ffffff00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" width="50px" height="50px"><g id="Layer%201"><g><path d="M 25 0 C 11.1924 0 0 11.1924 0 25 C 0 38.8076 11.1924 50 25 50 C 38.8076 50 50 38.8076 50 25 C 50 11.1924 38.8076 0 25 0 ZM 25 45.3125 C 13.7809 45.3125 4.6875 36.2188 4.6875 25 C 4.6875 13.7808 13.7809 4.6875 25 4.6875 C 36.2183 4.6875 45.3125 13.7808 45.3125 25 C 45.3125 36.2188 36.2183 45.3125 25 45.3125 ZM 18.75 35.9375 L 18.75 35.9375 Z" fill="#ffffff"/></g><path d="M 25 48 C 38.2556 48 11.7444 48 25 48 ZM 25 43.7727 C 14.2294 43.7727 35.7695 43.7727 25 43.7727 ZM 16 17 L 22 17 L 22 33.9091 L 16 33.9091 L 16 17 ZM 28 17 L 34 17 L 34 33.9091 L 28 33.9091 L 28 17 Z" fill="#ffffff"/></g></svg></a>')
+          .append('<a href="#next" class="sc-next"><svg id="" viewBox="0 0 19 18" style="background-color:#ffffff00" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" width="19px" height="18px"><path d="M 12.9873 8.3083 L 1.3106 1.1704 C 0.447 0.6206 -0.2592 1.0249 -0.2592 2.0713 L -0.2592 15.9272 C -0.2592 16.9741 0.447 17.3776 1.3106 16.8274 L 12.9873 9.6917 C 12.9873 9.6917 13.4084 9.403 13.4084 9.0015 C 13.4084 8.6001 12.9873 8.3093 12.9873 8.3093 L 12.9873 8.3083 ZM 16.5932 -0.0667 C 15.1679 -0.0667 14.1854 0.36 14.1854 1.7476 L 14.1854 16.2515 C 14.1854 17.6396 15.1679 18.0667 16.5932 18.0667 C 18.0184 18.0667 19 17.6396 19 16.2515 L 19 1.7476 C 19 0.36 18.0184 -0.0667 16.5932 -0.0667 Z" fill="#ffffff"/></svg></a>')
           .end()
           .append('<a href="#info" class="sc-info-toggle">Info</a>')
           .append('<div class="sc-scrubber"></div>')
@@ -519,6 +521,11 @@
           if (opts.randomize) {
             tracks = shuffle(tracks);
           }
+
+          if( tracks.length > 1 ){
+            $player.addClass("sc-multitrack");
+          }
+
           // create the playlist
           $.each(tracks, function(index, track) {
             var active = index === 0;
@@ -616,8 +623,56 @@
   // the GUI event bindings
   //--------------------------------------------------------
 
+  // next track
+
+  $doc.on('click','a.sc-next', function(event) {
+
+    var $list = $(this).closest('.sc-player').removeClass("playing").find('ol.sc-trackslist');
+    var $items = $list.find("li");
+    var itemLength = $items.length;
+
+    var activeIndex = $items.index( $list.find('li.active') );
+
+    if( activeIndex === ( itemLength - 1 ) ){
+
+      $list.find('li.active').removeClass("active");
+      $items.eq(0).addClass("active"); //select first item
+
+    } else {
+
+      $list.find('li.active').removeClass("active").next().addClass("active");
+    }
+
+    // simulate the click in the tracklist
+    $list.find('li.active').click();
+    return false;
+
+  }).on('click','a.sc-previous', function(event) {
+
+    var $list = $(this).closest('.sc-player').removeClass("playing").find('ol.sc-trackslist');
+    var $items = $list.find("li");
+    var itemLength = $items.length;
+
+    var activeIndex = $items.index( $list.find('li.active') );
+
+    if( activeIndex === 0 ){
+
+      $list.find('li.active').removeClass("active");
+      $items.eq( itemLength - 1 ).addClass("active");  //select last item
+
+    } else {
+
+      $list.find('li.active').removeClass("active").prev().addClass("active");
+    }
+
+    // simulate the click in the tracklist
+    $list.find('li.active').click();
+    return false;
+
+  });
+
   // toggling play/pause
-  $(document).on('click','a.sc-play, a.sc-pause', function(event) {
+  $doc.on('click','a.sc-play, a.sc-pause', function(event) {
     var $list = $(this).closest('.sc-player').find('ol.sc-trackslist');
     // simulate the click in the tracklist
     $list.find('li.active').click();
@@ -625,7 +680,7 @@
   });
 
   // displaying the info panel in the player
-  $(document).on('click','a.sc-info-toggle, a.sc-info-close', function(event) {
+  $doc.on('click','a.sc-info-toggle, a.sc-info-close', function(event) {
     var $link = $(this);
     $link.closest('.sc-player')
       .find('.sc-info').toggleClass('active').end()
@@ -634,7 +689,7 @@
   });
 
   // selecting tracks in the playlist
-  $(document).on('click','.sc-trackslist li', function(event) {
+  $doc.on('click','.sc-trackslist li', function(event) {
     var $track = $(this),
         $player = $track.closest('.sc-player'),
         trackId = $track.data('sc-track').id,
@@ -669,7 +724,7 @@
 
 
   // seeking in the loaded track buffer
-  $(document)
+  $doc
     .on('click','.sc-time-span', function(event) {
       scrub(this, event.pageX);
       return false;
@@ -702,7 +757,7 @@
     $(node).unbind('mousemove.sc-player');
   };
 
-  $(document)
+  $doc
     .on('mousedown','.sc-volume-slider', function(event) {
       startVolumeTracking(this, event);
     })
