@@ -258,38 +258,49 @@
             playerObj = {node: $player, tracks: []},
             loadUrl = function(link) {
               var apiUrl = scApiUrl(link.url, apiKey);
-              $.getJSON(apiUrl, function(data) {
-                // log('data loaded', link.url, data);
-                index += 1;
-                if(data.tracks){
-                  // log('data.tracks', data.tracks);
-                  playerObj.tracks = playerObj.tracks.concat(data.tracks);
-                }else if(data.duration){
-                  // a secret link fix, till the SC API returns permalink with secret on secret response
-                  data.permalink_url = link.url;
-                  // if track, add to player
-                  playerObj.tracks.push(data);
-                }else if(data.creator){
-                  // it's a group!
-                  links.push({url:data.uri + '/tracks'});
-                }else if(data.username){
-                  // if user, get his tracks or favorites
-                  if(/favorites/.test(link.url)){
-                    links.push({url:data.uri + '/favorites'});
-                  }else{
+              $.ajax({
+                dataType: "json",
+                url: apiUrl,
+                success: function(data){
+                  index += 1;
+                  if(data.tracks){
+                    // log('data.tracks', data.tracks);
+                    playerObj.tracks = playerObj.tracks.concat(data.tracks);
+                  }else if(data.duration){
+                    // a secret link fix, till the SC API returns permalink with secret on secret response
+                    data.permalink_url = link.url;
+                    // if track, add to player
+                    playerObj.tracks.push(data);
+                  }else if(data.creator){
+                    // it's a group!
                     links.push({url:data.uri + '/tracks'});
+                  }else if(data.username){
+                    // if user, get his tracks or favorites
+                    if(/favorites/.test(link.url)){
+                      links.push({url:data.uri + '/favorites'});
+                    }else{
+                      links.push({url:data.uri + '/tracks'});
+                    }
+                  }else if($.isArray(data)){
+                    playerObj.tracks = playerObj.tracks.concat(data);
                   }
-                }else if($.isArray(data)){
-                  playerObj.tracks = playerObj.tracks.concat(data);
+                  if(links[index]){
+                    // if there are more track to load, get them from the api
+                    loadUrl(links[index]);
+                  }else{
+                    // if loading finishes, anounce it to the GUI
+                    playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, url: apiUrl});
+                  }
+                },
+                error: function(){
+                  debugger;
+                  playerObj.node.trigger({type:'onTrackDataFailed', playerObj: playerObj, url: apiUrl});
+                },
+                fail: function(){
+                  debugger;
+                  playerObj.node.trigger({type:'onTrackDataFailed', playerObj: playerObj, url: apiUrl});
                 }
-                if(links[index]){
-                  // if there are more track to load, get them from the api
-                  loadUrl(links[index]);
-                }else{
-                  // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, url: apiUrl});
-                }
-             });
+              });
            };
         // update current API key
         apiKey = key;
@@ -489,7 +500,7 @@
         $artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
         $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
-        $list = $('<ol class="sc-trackslist"></ol>').appendTo($player);
+        $list = $('<ol class="sc-trackslist"><li class="active"><a href="#">Loading&hellip;</a></li></ol>').appendTo($player);
 
         // add the classes of the source node to the player itself
         // the players can be indvidually styled this way
@@ -515,8 +526,16 @@
         // load and parse the track data from SoundCloud API
         loadTracksData($player, links, opts.apiKey);
         // init the player GUI, when the tracks data was laoded
+
+        //Fail callback
+        $player.bind('onTrackDataFailed.scPlayer', function(event){
+
+          log('Failed to load tracks');
+          $player.hide();
+        });
+
+        //Success callback
         $player.bind('onTrackDataLoaded.scPlayer', function(event) {
-          // log('onTrackDataLoaded.scPlayer', event.playerObj, playerId, event.target);
           var tracks = event.playerObj.tracks;
           if (opts.randomize) {
             tracks = shuffle(tracks);
@@ -525,6 +544,9 @@
           if( tracks.length > 1 ){
             $player.addClass("sc-multitrack");
           }
+
+          //clear the "Loading..." dummy text
+          $list.empty();
 
           // create the playlist
           $.each(tracks, function(index, track) {
