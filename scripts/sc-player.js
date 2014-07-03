@@ -382,7 +382,7 @@
         updates = {
           $buffer: $('.sc-buffer', player),
           $played: $('.sc-played', player),
-          position:  $('.sc-position', player)[0]
+          timebar: $('.sc-timebar .time', player)[0]
         };
         updatePlayStatus(player, true);
         play(track);
@@ -396,8 +396,6 @@
             $nextItem;
         // update the scrubber width
         updates.$played.css('width', '0%');
-        // show the position in the track position counter
-        updates.position.innerHTML = timecode(0);
         // reset the player state
         updatePlayStatus($player, false);
         // stop the audio
@@ -462,7 +460,7 @@
           // update the scrubber width
           updates.$played.css('width', (100 * relative) + '%');
           // show the position in the track position counter
-          updates.position.innerHTML = timecode(position);
+          updates.timebar.style.width = ((position/duration) * 100) + "%";
           // announce the track position to the DOM
           $doc.trigger({
             type: 'onMediaTimeUpdate.scPlayer',
@@ -498,6 +496,7 @@
         links = opts.links || $.map($('a', $source).add($source.filter('a')), function(val) { return {url: val.href, title: val.innerHTML}; }),
         $player = $('<div class="sc-player loading"></div>').data('sc-player', {id: playerId}),
         //$artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
+        $timeBar = $('<div class="sc-timebar"><div class="time"></div></div>').appendTo($player),
         $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
         $list = $('<ol class="sc-trackslist"><li class="active"><a href="#">Loading&hellip;</a></li></ol>').appendTo($player);
@@ -520,8 +519,7 @@
           .append('<div class="sc-scrubber"></div>')
             .find('.sc-scrubber')
               .append('<div class="sc-volume-slider"><span class="sc-volume-status" style="width:' + soundVolume +'%"></span></div>')
-              .append('<div class="sc-time-span"><div class="sc-waveform-container"></div><div class="sc-buffer"></div><div class="sc-played"></div></div>')
-              .append('<div class="sc-time-indicators"><span class="sc-position"></span> | <span class="sc-duration"></span></div>');
+              .append('<div class="sc-time-span"><div class="sc-waveform-container"></div><div class="sc-buffer"></div><div class="sc-played"></div></div>');
 
         // load and parse the track data from SoundCloud API
         loadTracksData($player, links, opts.apiKey);
@@ -553,12 +551,6 @@
             var active = index === 0;
             // create an item in the playlist
             $('<li><a href="' + track.permalink_url +'">' + track.title + '</a><span class="sc-track-duration">' + timecode(track.duration) + '</span></li>').data('sc-track', {id:index}).toggleClass('active', active).appendTo($list);
-            // create an item in the artwork list
-//            $('<li></li>')
-//              .append(artworkImage(track, index >= opts.loadArtworks))
-//              .appendTo($artworks)
-//              .toggleClass('active', active)
-//              .data('sc-track', track);
           });
           // update the element before rendering it in the DOM
           $player.each(function() {
@@ -567,8 +559,8 @@
             }
           });
           // set the first track's duration
-          $('.sc-duration', $player)[0].innerHTML = timecode(tracks[0].duration);
-          $('.sc-position', $player)[0].innerHTML = timecode(0);
+
+
           // set up the first track info
           updateTrackInfo($player, tracks[0]);
 
