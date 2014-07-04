@@ -309,15 +309,6 @@
         // load first tracks
         loadUrl(links[index]);
       },
-//      artworkImage = function(track, usePlaceholder) {
-//        if(usePlaceholder){
-//          return '<div class="sc-loading-artwork">Loading Artwork</div>';
-//        }else if (track.artwork_url) {
-//          return '<img src="' + track.artwork_url.replace('-large', '-t300x300') + '"/>';
-//        }else{
-//          return '<div class="sc-no-artwork">No Artwork</div>';
-//        }
-//      },
       updateTrackInfo = function($player, track) {
         // update the current track info in the player
         // log('updateTrackInfo', track);
@@ -326,25 +317,6 @@
           $('h4', this).html('by <a href="' + track.user.permalink_url +'">' + track.user.username + '</a>');
           $('p', this).html(track.description || 'no Description');
         });
-        // update the artwork
-//        $('.sc-artwork-list li', $player).each(function(index) {
-//          var $item = $(this),
-//              itemTrack = $item.data('sc-track');
-//
-//          if (itemTrack === track) {
-//            // show track artwork
-//            $item
-//              .addClass('active')
-//              .find('.sc-loading-artwork')
-//                .each(function(index) {
-//                  // if the image isn't loaded yet, do it now
-//                  $(this).removeClass('sc-loading-artwork').html(artworkImage(track, false));
-//                });
-//          }else{
-//            // reset other artworks
-//            $item.removeClass('active');
-//          }
-//        });
         // update the track duration in the progress bar
         $('.sc-duration', $player).html(timecode(track.duration));
         // put the waveform into the progress bar
